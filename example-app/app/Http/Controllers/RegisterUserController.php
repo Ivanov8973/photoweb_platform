@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
-    public function register(){
+    public function register()
+    {
         return view('auth.register');
     }
 
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         //validate the fields
-        $request -> validate([
+        $request->validate([
             'name' => ['required', 'max:255', 'min:5', 'string'],
             'email' => 'required|email|unique:users',
             'password' => ['required', 'confirmed', Password::defaults()]
@@ -32,8 +33,8 @@ class RegisterUserController extends Controller
 
         //log the user in
         // auth()->login($user);
-        
+
         //redirect
-        return to_route('photos.index')->with('success','Registered successfully');
+        return to_route('photos.index')->with('success', 'Registered successfully');
     }
 }

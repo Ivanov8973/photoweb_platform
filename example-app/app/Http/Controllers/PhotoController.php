@@ -13,8 +13,8 @@ class PhotoController extends Controller
     public function index()
     {
         //get all posts from DB
-       $photos = Photo::orderBy("created_at", "desc")->paginate(10);
-        return view('photos.index',['photos' => $photos]);
+        $photos = Photo::orderBy("created_at", "desc")->paginate(10);
+        return view('photos.index', ['photos' => $photos]);
     }
 
     // /**
@@ -30,21 +30,21 @@ class PhotoController extends Controller
     //  */
     public function store(Request $request)
     {
-      $request->validate([
-        'name' => 'required',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+        $request->validate([
+            'name' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $image = $request->file('image');
-        $imageName = time().'.'.$image->extension();
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->extension();
 
-        $imageName = time().'.'.$request->image->extension();
+        $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
         $photo = new Photo();
         $photo->name = $request->name;
         $photo->description = $request->description ?? '';
-        $photo->image = 'images/'.$imageName;
-        
+        $photo->image = 'images/' . $imageName;
+
         $photo->save();
 
         return redirect()->route('photos.index')->with('success', 'Photo uploaded successfully.');
@@ -55,7 +55,7 @@ class PhotoController extends Controller
     //  */
     public function show(Photo $photo)
     {
-        return view('photos.show', ['photo'=> $photo]);
+        return view('photos.show', ['photo' => $photo]);
     }
 
     // /**
